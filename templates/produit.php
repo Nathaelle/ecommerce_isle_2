@@ -1,7 +1,7 @@
 <?php
 require_once "tab.php";
 
-var_dump($_GET);
+//var_dump($_GET);
 
 $indice = (isset($_GET["art"]))? $_GET["art"] : 0;
 $article = $articles[$indice];
