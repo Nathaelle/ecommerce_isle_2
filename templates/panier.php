@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Bonjour M/Mme Dupont</h2>
+    <h2>Bonjour <?= $_SESSION["user"] ?></h2>
     <hr>
     <h3>Votre panier :</h3>
     <table class="table table-bordered">

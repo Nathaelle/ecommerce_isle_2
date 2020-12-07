@@ -1,10 +1,12 @@
 <?php
 session_start();
 
-
 // index.php?page=produit&art=3
 
 //var_dump($_GET);
+var_dump($_POST);
+var_dump($_SESSION);
+
 /* 
 $_GET = [
     "page" => "produit",
@@ -21,14 +23,41 @@ switch($page) {
     break;
     case "connexion" : $template = "connexion.php";
     break;
-    case "panier" : $template = "panier.php";
+    case "deconnexion" : $template = deconnect();
+    break;
+    case "panier" : $template = connect();
     break;
     default : $template = "produits.php";
 }
 
 
+function connect() {
+
+    // Il s'agira avant de vérifier le droit de l'utilisateur à se connecter au système
+
+    if(isset($_POST['email'])) {
+        $_SESSION["user"] = $_POST['email'];
+    }
+
+    if(isset($_SESSION["user"])) {
+        return "panier.php";
+    } else {
+        return "produits.php";
+    }
+  
+}
+
+function deconnect() {
+
+    $_SESSION = [];
+    session_destroy();
+
+    return "produits.php";
+}
+
+
 function ajoutPanier() {
-    
+
 }
 
 //$template = "panier.php";
@@ -58,8 +87,12 @@ function ajoutPanier() {
             </ul>
             <form class="form-inline my-2 my-lg-0">
 
-                <a class="nav-link" href="index.php?page=connexion">Connexion <span class="sr-only"></span></a>
-                <a class="nav-link" href="index.php?page=panier">Mon panier <span class="sr-only"></span></a>
+                <?php if(!isset($_SESSION["user"])): ?>
+                    <a class="nav-link" href="index.php?page=connexion">Connexion <span class="sr-only"></span></a>
+                <?php else: ?>
+                    <a class="nav-link" href="index.php?page=deconnexion">Déconnexion <span class="sr-only"></span></a>
+                    <a class="nav-link" href="index.php?page=panier">Mon panier <span class="sr-only"></span></a>
+                <?php endif ?>
 
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
